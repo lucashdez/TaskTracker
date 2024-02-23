@@ -1,0 +1,34 @@
+@document.meta
+title: README
+description: The readme file of the TaskTracker plugin
+authors: lucashdez
+categories: readme
+created: 2024-02-23T13:38:36+0000
+updated: 2024-02-23T13:59:24+0000
+version: 1.0.0
+@end
+
+* TaskTracker neovim plugin
+  This plugin provides a neovim time tracker, with it you can track the 
+  time you spend on different tasks.
+
+* Objectives
+
+  - ( ) Time start/stop
+  - ( ) Time resumer (save status of the last timer)
+  - ( ) Task descriptor
+  - ( ) Copy to clipboard as table entry
+  @table
+  |-----------+-------+-----+-------------|
+  | task desc | start | end | end - start |
+  |===========+=======+=====+=============|
+  @end
+  - ( ) Table structure
+  @table
+  |-------------+------------+----------+-------------|
+  | Description | Start time | End time | Duration    |
+  |=============+============+==========+=============|
+  | task desc   | start      | end      | end - start |
+  |-------------+------------+----------+-------------|
+  @end
+
