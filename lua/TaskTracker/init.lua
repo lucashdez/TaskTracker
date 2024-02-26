@@ -1,5 +1,6 @@
 local M = {}
 M.name = ""
+M.tracking = false
 
 function M.setup(opts)
 	local time = require("TaskTracker.internal.timer")
@@ -15,8 +16,10 @@ function M.start_timer()
 	vim.ui.input({
 		prompt = "Task name: ",
 	}, function(args)
+		-- vim.api.nvim_open_win(buffer: integer, enter: boolean, config?: table<string, any>)
 		M.name = args
 		M.stime = os.time()
+		M.tracking = true
 	end)
 end
 
