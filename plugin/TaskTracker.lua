@@ -15,12 +15,26 @@ function ttcmd(opts)
 		print("current_timer")
 		tt.current_timer()
 	else
-		error("something is wrong", 1)
+		local out = ""
+		for k, val in pairs(tt) do
+			out = out .. tostring(k) .. ":" .. tostring(val) .. "\n"
+		end
+		print(out)
 	end
 end
 
-function TaskTrackerCompletion(Args, Cmd, CPos)
-	return { "start_timer", "end_timer", "resume_timer", "copy_table", "table_heading", "current_timer" }
+function TaskTrackerCompletion(args, cmd, cpos)
+	local tt = require("TaskTracker")
+	local splitCmd = vim.split(cmd, " ")
+	local completions = {}
+	for k, t in pairs(tt) do
+		if type(t) == "function" then
+			table.insert(completions, tostring(k))
+		end
+	end
+	return vim.tbl_filter(function(key)
+		return key:find(splitCmd[#splitCmd])
+	end, completions)
 end
 
 vim.api.nvim_create_user_command(

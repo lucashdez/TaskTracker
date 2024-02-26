@@ -17,6 +17,7 @@ function M.start_timer()
 		prompt = "Task name: ",
 	}, function(args)
 		-- vim.api.nvim_open_win(buffer: integer, enter: boolean, config?: table<string, any>)
+		-- -complete=customlist,{func} custom completion, defined via {func}
 		M.name = args
 		M.stime = os.time()
 		M.tracking = true
