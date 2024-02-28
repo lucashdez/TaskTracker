@@ -1,3 +1,4 @@
+local M = {}
 --- @class Timer
 --- @field name string name of the timer
 --- @field stime number the
@@ -5,7 +6,9 @@
 --- @field active boolean it shows if the timer is active
 local Timer = {}
 
-function Timer.new() end
+function Timer.new()
+	return Timer
+end
 
 function Timer.start_timer()
 	Timer.stime = os.time()
@@ -17,4 +20,7 @@ function Timer.end_timer()
 	print(os.date("%H:%M:%S", Timer.etime))
 end
 
-return Timer
+function M.new()
+	return Timer
+end
+return M

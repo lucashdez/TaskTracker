@@ -1,7 +1,11 @@
+local ui_utils = require("TaskTracker.internal.ui")
+
+---@module 'TaskTracker'
 local M = {}
 M.name = ""
 M.tracking = false
 M.private = {}
+M.private.window = nil
 
 --- @class SessionTimers
 --- @field arr Array<Timer> array of timers for the session
@@ -33,30 +37,21 @@ function M.private.start_timer_completion(_, cmd, _)
 end
 
 function M.start_timer()
+	local timer = {}
 	vim.ui.input({
 		prompt = "Task name: ",
 		completion = "customlist,v:lua.require('TaskTracker').private.start_timer_completion",
 	}, function(args)
-		-- vim.api.nvim_open_win(buffer: integer, enter: boolean, config?: table<string, any>)
+		timer.name = args
+		timer.stime = os.time()
+		timer.active = true
+		timer.etime = nil
 		M.name = args
 		M.stime = os.time()
 		M.tracking = true
 	end)
-	local buf = vim.api.nvim_create_buf(false, true)
-	local ui = vim.api.nvim_list_uis()[1]
-	local col = 12
-	if ui ~= nil then
-		col = math.max(ui.width - 13, 0)
-	end
-	local win = vim.api.nvim_open_win(buf, false, {
-		relative = "editor",
-		width = 40,
-		height = 1,
-		row = 0,
-		col = col,
-		border = "rounded",
-	})
-	vim.api.nvim_buf_set_lines(buf, 1, 1, true, { "A" })
+	M.private.window = ui_utils.new_window()
+	M.private.window.create_timer_window()
 end
 
 return M
