@@ -1,4 +1,11 @@
+--- @class Timer
+--- @field name string name of the timer
+--- @field stime number the
+--- @field etime number the end time of the timer
+--- @field active boolean it shows if the timer is active
 local Timer = {}
+
+function Timer.new() end
 
 function Timer.start_timer()
 	Timer.stime = os.time()
