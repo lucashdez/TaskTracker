@@ -1,4 +1,5 @@
 local utils = require("TaskTracker.internal.utils")
+local timer = require("TaskTracker.internal.timer")
 --- @module 'Window'
 local M = {}
 
@@ -35,14 +36,15 @@ function Window.create_timer_window()
 		col = col,
 		border = "none",
 		style = "minimal",
+		focusable = false,
 	}
 	create_window(options)
 end
 
 --- @param timer Timer
-function Window.write_timer(timer)
-	local instant = timer.get_instant()
-	local fullname = utils.fit_string(timer.name, 40 - #instant)
+function Window.write_timer(t)
+	local instant = timer.get_instant(t)
+	local fullname = utils.fit_string(t.name, 40 - #instant)
 	vim.api.nvim_buf_set_lines(Window.buf, 0, -1, false, { fullname .. instant })
 end
 

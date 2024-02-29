@@ -4,7 +4,7 @@ function ttcmd(opts)
 	if args == "start_timer" then
 		tt.start_timer()
 	elseif args == "end_timer" then
-		print("end_timer")
+		tt.end_timer()
 	elseif args == "resume_timer" then
 		print("resume_timer")
 	elseif args == "copy_table" then
@@ -14,6 +14,8 @@ function ttcmd(opts)
 	elseif args == "current_timer" then
 		print("current_timer")
 		tt.current_timer()
+	elseif args == "get_timers" then
+		tt.get_timers()
 	else
 		local out = ""
 		for k, val in pairs(tt) do
