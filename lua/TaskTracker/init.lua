@@ -12,6 +12,20 @@ M.private.window = nil
 M.session_timers = {}
 M.session_timers.arr = {}
 
+--- @param name string
+function M.session_timers.find_timer(name)
+	if name == nil then
+		return nil
+	end
+	name = name:gsub("%s+", "")
+	for i, t in ipairs(M.session_timers.arr) do
+		if t.name == name then
+			return i
+		end
+	end
+	return nil
+end
+
 -- opts is a param
 function M.setup(_)
 	local time = require("TaskTracker.internal.timer")
@@ -42,16 +56,20 @@ function M.start_timer()
 		prompt = "Task name: ",
 		completion = "customlist,v:lua.require('TaskTracker').private.start_timer_completion",
 	}, function(args)
-		timer.name = args
+		timer.name = args:gsub("%s+", "")
 		timer.stime = os.time()
 		timer.active = true
 		timer.etime = nil
+		timer.internal_timer = vim.loop.new_timer()
+
+		timer.internal_timer.start(timer.internal_timer, 1000, 0, function() end)
 		M.name = args
 		M.stime = os.time()
 		M.tracking = true
+		M.private.window = ui_utils.new_window()
+		M.private.window.create_timer_window()
+		M.session_timers.arr[#M.session_timers.arr + 1] = timer
 	end)
-	M.private.window = ui_utils.new_window()
-	M.private.window.create_timer_window()
 end
 
 return M

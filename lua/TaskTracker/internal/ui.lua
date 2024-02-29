@@ -16,7 +16,7 @@ local function create_window(win_opts)
 		print("window already exists")
 	else
 		Window.buf = vim.api.nvim_create_buf(false, true)
-		Window.win = vim.api.nvim_open_win(Window.buf, false, win_opts)
+		Window.id = vim.api.nvim_open_win(Window.buf, false, win_opts)
 	end
 end
 
@@ -32,7 +32,8 @@ function Window.create_timer_window()
 		height = 1,
 		row = 0,
 		col = col,
-		border = "rounded",
+		border = "none",
+		style = "minimal",
 	}
 	create_window(options)
 end
