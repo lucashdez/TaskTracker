@@ -1,4 +1,3 @@
-local M = {}
 --- @class Timer
 --- @field name string name of the timer
 --- @field stime number the
@@ -18,8 +17,16 @@ function Timer.end_timer()
 	print(os.date("%H:%M:%S", Timer.etime))
 end
 
----  @return Timer Timer returns a new timer
-function M.new()
-	return Timer
+function Timer.get_instant()
+	local instant = os.time()
+	return os.date("%H:%M:%S", instant - Timer.stime)
 end
-return M
+
+---  @return Timer Timer returns a new timer
+function Timer:new(o)
+	o = o or {}
+	setmetatable(o, self)
+	self.__index = self
+	return o
+end
+return Timer

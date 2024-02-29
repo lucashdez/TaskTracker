@@ -1,3 +1,4 @@
+local utils = require("TaskTracker.internal.utils")
 --- @module 'Window'
 local M = {}
 
@@ -38,6 +39,14 @@ function Window.create_timer_window()
 	create_window(options)
 end
 
+--- @param timer Timer
+function Window.write_timer(timer)
+	local instant = timer.get_instant()
+	local fullname = utils.fit_string(timer.name, 40 - #instant)
+	vim.api.nvim_buf_set_lines(Window.buf, 0, -1, false, { fullname .. instant })
+end
+
+--- @return Window window returns an instance of a Window
 function M.new_window()
 	return Window
 end

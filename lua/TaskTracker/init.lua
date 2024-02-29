@@ -1,4 +1,5 @@
 local ui_utils = require("TaskTracker.internal.ui")
+local timing_utils = require("TaskTracker.internal.timer")
 
 ---@module 'TaskTracker'
 local M = {}
@@ -13,6 +14,7 @@ M.session_timers = {}
 M.session_timers.arr = {}
 
 --- @param name string
+--- This function finds the timer by its name.
 function M.session_timers.find_timer(name)
 	if name == nil then
 		return nil
@@ -38,37 +40,51 @@ function M.current_timer(timer)
 end
 
 function M.private.start_timer_completion(_, cmd, _)
-	local splitCmd = vim.split(cmd, " ")
-	local list = {}
-	if M.session_timers.arr ~= nil then
-		for timer in M.session_timers.arr do
-			list[#list + 1] = timer.name
-		end
+	local splitCmd = vim.list_slice(
+		vim.split(cmd, " ", {
+			plain = true,
+			trimempty = true,
+		}),
+		1
+	)
+
+	local name_list = {}
+	for idx, timer in ipairs(M.session_timers.arr) do
+		name_list[idx] = tostring(idx) .. timer.name
 	end
-	return vim.tbl_filter(function(key)
-		return key:find(splitCmd[#splitCmd])
-	end, list)
+
+	return name_list
 end
 
 function M.start_timer()
-	local timer = {}
+	M.session_timers.arr[table.maxn(M.session_timers.arr) + 1] = timing_utils:new()
 	vim.ui.input({
 		prompt = "Task name: ",
 		completion = "customlist,v:lua.require('TaskTracker').private.start_timer_completion",
 	}, function(args)
-		timer.name = args:gsub("%s+", "")
-		timer.stime = os.time()
-		timer.active = true
-		timer.etime = nil
-		timer.internal_timer = vim.loop.new_timer()
+		if args == nil then
+			return
+		end
 
-		timer.internal_timer.start(timer.internal_timer, 1000, 0, function() end)
-		M.name = args
-		M.stime = os.time()
+		local nidx = table.maxn(M.session_timers.arr)
+
+		getmetatable(M.session_timers.arr[nidx]).__index.name = args:gsub("%s+", "")
+		getmetatable(M.session_timers.arr[nidx]).__index.stime = os.time()
+		getmetatable(M.session_timers.arr[nidx]).__index.active = true
+		getmetatable(M.session_timers.arr[nidx]).__index.etime = nil
+		getmetatable(M.session_timers.arr[nidx]).__index.internal_timer = vim.loop.new_timer()
 		M.tracking = true
 		M.private.window = ui_utils.new_window()
 		M.private.window.create_timer_window()
-		M.session_timers.arr[#M.session_timers.arr + 1] = timer
+
+		getmetatable(M.session_timers.arr[nidx]).__index.internal_timer.start(
+			getmetatable(M.session_timers.arr[nidx]).__index.internal_timer,
+			1000,
+			1000,
+			vim.schedule_wrap(function()
+				M.private.window.write_timer(getmetatable(M.session_timers.arr[nidx]).__index)
+			end)
+		)
 	end)
 end
 
