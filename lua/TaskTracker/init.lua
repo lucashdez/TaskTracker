@@ -31,10 +31,10 @@ function M.setup(_)
 	local time = require("TaskTracker.internal.timer")
 end
 
-function M.current_timer()
+function M.current_timer(timer)
 	local instant = os.time()
-	local timestr = os.date("%H:%M:%S", instant - M.stime)
-	print("Timer " .. M.name .. " at: " .. timestr)
+	local timestr = os.date("%H:%M:%S", instant - timer.stime)
+	print("Timer " .. timer.name .. " at: " .. timestr)
 end
 
 function M.private.start_timer_completion(_, cmd, _)
