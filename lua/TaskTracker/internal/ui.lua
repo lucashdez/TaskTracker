@@ -22,19 +22,29 @@ local function create_window(win_opts)
 	end
 end
 
+function Window.close_window()
+	Window.closing = true
+	if Window.id ~= nil then
+		vim.api.nvim_win_close(Window.id, true)
+	end
+	Window.closing = false
+end
+
 function Window.create_timer_window()
 	local ui = vim.api.nvim_list_uis()[1]
 	local col = 12
+	local row = 0
 	if ui ~= nil then
 		col = math.max(ui.width - 13, 0)
+		row = math.max(ui.height - 4, 0)
 	end
 	local options = {
 		relative = "editor",
 		width = 40,
 		height = 1,
-		row = 0,
+		row = row,
 		col = col,
-		border = "none",
+		border = "rounded",
 		style = "minimal",
 		focusable = false,
 	}

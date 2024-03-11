@@ -57,22 +57,6 @@ function M.private.start_timer_completion(_, cmd, _)
 	for idx, timer in ipairs(M.st.arr) do
 		name_list[idx] = timer.name
 	end
-	--[[
-	if cmd ~= nil then
-		local splitCmd = vim.list_slice(
-			vim.split(cmd, " ", {
-				plain = true,
-				trimempty = true,
-			}),
-			1
-		)
-		return vim.tbl_filter(function(key)
-			key = key or ""
-			return key:find(splitCmd[#splitCmd])
-		end, name_list)
-	end
-    ]]
-
 	return name_list
 end
 
@@ -87,6 +71,7 @@ function M.end_timer()
 	M.tracking = false
 	M.st.arr[i]:get_elapsed()
 	M.st.arr[i].internal_timer:stop()
+	M.private.window.close_window()
 end
 
 --- Starts a new timer and appends it to the session timers

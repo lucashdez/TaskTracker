@@ -4,7 +4,7 @@ description: The readme file of the TaskTracker plugin
 authors: lucashdez
 categories: readme
 created: 2024-02-23T13:38:36+0000
-updated: 2024-03-03T00:24:58+0000
+updated: 2024-03-11T20:08:01+0000
 version: 1.0.0
 @end
 
@@ -14,8 +14,9 @@ version: 1.0.0
 
 * Objectives
 
-  - ( ) Time start/stop
+  - (x) Time start/stop
   - ( ) Time resumer (save status of the last timer)
+  - ( ) Close window when no timers active
   - ( ) Task descriptor
   - ( ) Copy to clipboard as table entry
   @table
@@ -30,26 +31,4 @@ version: 1.0.0
   |=============+============+==========+=============|
   | task desc   | start      | end      | end - start |
   |-------------+------------+----------+-------------|
-  @end
-
-@code lua
-            if vim.endswith(command, " ") then
-                local completions = last_valid_ref.complete[#splitcmd - last_completion_level + 1] or {}
-
-                if type(completions) == "function" then
-                    completions = completions(current_buf, is_norg) or {}
-                end
-
-                return completions
-            else
-                local completions = last_valid_ref.complete[#splitcmd - last_completion_level] or {}
-
-                if type(completions) == "function" then
-                    completions = completions(current_buf, is_norg) or {}
-                end
-
-                return vim.tbl_filter(function(key)
-                    return key:find(splitcmd[#splitcmd])
-                end, completions)
-            end
   @end
