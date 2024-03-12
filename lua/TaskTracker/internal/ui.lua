@@ -51,7 +51,7 @@ function Window.create_timer_window()
 	create_window(options)
 end
 
---- @param timer Timer
+--- @param t Timer
 function Window.write_timer(t)
 	local instant = timer.get_instant(t)
 	local fullname = utils.fit_string(t.name, 40 - #instant)

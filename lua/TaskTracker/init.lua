@@ -1,7 +1,7 @@
 local ui_utils = require("TaskTracker.internal.ui")
 local timing_utils = require("TaskTracker.internal.timer")
 
----@module 'TaskTracker'
+--- @module 'TaskTracker'
 local M = {}
 M.name = ""
 M.tracking = false
@@ -28,7 +28,7 @@ function M.st.find_timer(name)
 	return nil
 end
 
---- @return number|nil the index of the active timer of nil
+--- @return number|nil #index of the active timer of nil
 function M.st.active_timer()
 	for i, t in ipairs(M.st.arr) do
 		if t.active then
