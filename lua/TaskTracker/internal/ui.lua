@@ -1,4 +1,4 @@
-local utils = require("TaskTracker.internal.utils")
+local utils = require("TaskTracker.internal.string_utils")
 local timer = require("TaskTracker.internal.timer")
 --- @module 'Window'
 local M = {}

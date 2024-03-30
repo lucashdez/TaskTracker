@@ -1,4 +1,4 @@
---- @module 'internal.utils'
+--- @module 'internal.string_utils'
 local M = {}
 
 function M.fit_string(str, width)
