@@ -9,7 +9,7 @@ M.private = {}
 M.private.window = nil
 
 --- @class SessionTimer
---- @field arr Array<Timer> array of timers for the session
+--- @field arr table<Timer> array of timers for the session
 M.st = {}
 M.st.arr = {}
 
@@ -28,7 +28,7 @@ function M.st.find_timer(name)
 	return nil
 end
 
---- @return number|nil #index of the active timer of nil
+--- @return number|nil #index of the active timer or nil
 function M.st.active_timer()
 	for i, t in ipairs(M.st.arr) do
 		if t.active then
@@ -39,7 +39,8 @@ function M.st.active_timer()
 end
 
 -- opts is a param
-function M.setup(_)
+function M.setup(opts)
+	opts = opts or {}
 	local time = require("TaskTracker.internal.timer")
 end
 
