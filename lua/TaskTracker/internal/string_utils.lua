@@ -14,4 +14,14 @@ function M.fit_string(str, width)
 	end
 end
 
+function M.split_string(str, sep)
+	if sep == nil then
+		sep = "%s"
+	end
+	local t = {}
+	for s in string.gmatch(str, "([^" .. sep .. "]+)") do
+		table.insert(t, s)
+	end
+end
+
 return M

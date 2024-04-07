@@ -26,4 +26,16 @@ function Timer:new(name, stime, internal_timer)
 	o.active = true
 	return o
 end
+
+function Timer:read(name, stime, etime)
+	local o = {}
+	setmetatable(o, { __index = self })
+	o.name = name
+	o.stime = stime
+	o.etime = etime
+	o.internal_timer = vim.loop.new_timer()
+	o.active = false
+	return o
+end
+
 return Timer
