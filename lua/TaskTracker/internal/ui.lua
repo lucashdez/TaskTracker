@@ -27,6 +27,7 @@ function Window.close_window()
 	if Window.id ~= nil then
 		vim.api.nvim_win_close(Window.id, true)
 	end
+	Window.id = nil
 	Window.closing = false
 end
 

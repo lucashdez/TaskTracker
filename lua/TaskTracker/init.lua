@@ -92,7 +92,7 @@ function M.start_timer()
 		end
 
 		local nidx = table.maxn(M.st.arr) + 1
-		M.st.arr[nidx] = timing_utils:new(args:gsub("%s+", ""), os.time(), vim.loop.new_timer())
+		M.st.arr[nidx] = timing_utils:new(args, os.time(), vim.loop.new_timer())
 
 		M.tracking = true
 		M.private.window = ui_utils.new_window()
