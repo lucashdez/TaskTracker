@@ -8,12 +8,12 @@ local Timer = {}
 
 function Timer.get_instant(other)
 	local instant = os.time()
-	return os.date("%H:%M:%S", instant - other.stime)
+	return os.date("!%H:%M:%S", instant - other.stime)
 end
 
 function Timer:get_elapsed()
 	local t = self.etime - self.stime
-	print(os.date("%H:%M:%S", t))
+	print(os.date("!%H:%M:%S", t))
 end
 
 ---  @return Timer Timer returns a new timer
