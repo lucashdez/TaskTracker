@@ -7,7 +7,14 @@
 --- @class FileManager
 --- @field path string, path where all the timers will be stored.
 --- Defaults to: "~/.lucashdez/tasktracker/timers"
+--- @field file File, the name of the file opened to save timers to
 local M = {}
+
+--- @class File
+--- @field name string, name of the opened file
+--- @field ptr file*, pointer to the opened file
+M.file = nil
+
 local su = require("TaskTracker.internal.string_utils")
 local tu = require("TaskTracker.internal.timer")
 
@@ -25,8 +32,7 @@ end
 --- Inits the file manager with the path to the timers
 --- @param fm_opts table, the custom options for the FileManager
 function M.init(fm_opts)
-	fm_opts = fm_opts or nil
-	if fm_opts == nil then
+	if #fm_opts == 0 then
 		M.path = "~/.lucashdez/tasktracker/timers/"
 		-- Look if it exists or create it
 		if not _exists(M.path) then
@@ -36,11 +42,11 @@ function M.init(fm_opts)
 end
 
 local function _file_exists(file)
-	local f = io.open(file, "rb")
+	local f, err = io.open(file, "rb")
 	if f then
 		f:close()
 	end
-	return f == nil
+	return f ~= nil
 end
 
 --- Reads a file from a path to get the timers
@@ -73,5 +79,8 @@ function M.read_today()
 	local timers = M.read(M.path .. ts)
 	return timers
 end
+
+--- Saves the current timers to the file
+function M.save_timers() end
 
 return M

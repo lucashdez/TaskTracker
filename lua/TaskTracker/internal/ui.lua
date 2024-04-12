@@ -29,6 +29,8 @@ function Window.close_window()
 	end
 	Window.id = nil
 	Window.closing = false
+	vim.api.nvim_buf_delete(Window.buf, {})
+	Window.buf = nil
 end
 
 function Window.create_timer_window()

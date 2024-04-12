@@ -42,6 +42,9 @@ end
 function M.setup(opts)
 	opts = opts or {}
 	local time = require("TaskTracker.internal.timer")
+	local ttfm = require("TaskTracker.internal.fm")
+	ttfm.init({})
+	M.st.arr = ttfm.read_today()
 end
 
 --- Prints the timers of the current session
