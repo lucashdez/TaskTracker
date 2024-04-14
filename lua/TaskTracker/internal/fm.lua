@@ -74,10 +74,14 @@ end
 
 --- Reads the file that contains the timers of today
 --- @return table<Timer> # The timers of today
+--- @return number err The errors for the file
 function M.read_today()
+	local err = 0
 	local ts = os.date("%Y%m%d") .. ".tt"
 	local timers = M.read(M.path .. ts)
-	return timers
+	if next(timers) == nil then
+	end
+	return timers, err
 end
 
 --- Saves the current timers to the file
