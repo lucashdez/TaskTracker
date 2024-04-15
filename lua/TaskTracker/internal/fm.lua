@@ -12,8 +12,11 @@ local M = {}
 
 --- @class File
 --- @field name string, name of the opened file
---- @field ptr file*, pointer to the opened file
-M.file = nil
+--- @field ptr file*|nil, pointer to the opened file
+M.file = {
+	ptr = nil,
+	name = "",
+}
 
 local su = require("TaskTracker.internal.string_utils")
 local tu = require("TaskTracker.internal.timer")
@@ -68,6 +71,10 @@ function M.read(file)
 				end
 			end
 		end
+	else
+		local name = tostring(os.date("%Y%m%d_%W", os.time()))
+		M.file.name = name
+		os.execute("touch " .. M.path .. M.file.name .. ".tt")
 	end
 	return timers
 end
@@ -77,7 +84,7 @@ end
 --- @return number err The errors for the file
 function M.read_today()
 	local err = 0
-	local ts = os.date("%Y%m%d") .. ".tt"
+	local ts = os.date("%Y%m%d_%W") .. ".tt"
 	local timers = M.read(M.path .. ts)
 	if next(timers) == nil then
 	end
@@ -85,6 +92,15 @@ function M.read_today()
 end
 
 --- Saves the current timers to the file
-function M.save_timers() end
+function M.save_timers()
+	local tt = require("TaskTracker")
+	M.file.ptr = assert(io.open(M.path .. M.file.name .. ".tt", "w+"))
+	for _, timer in ipairs(tt.st.arr) do
+		local str_save = timer.stime .. " " .. timer.etime .. ";" .. timer.name
+		M.file.ptr:write(str_save)
+	end
+	M.file.ptr:flush()
+	M.file.ptr:close()
+end
 
 return M

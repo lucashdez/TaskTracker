@@ -16,6 +16,7 @@ function ttcmd(opts)
 		tt.current_timer()
 	elseif args == "get_timers" then
 		tt.get_timers()
+		tt.save_timers()
 	else
 		local out = ""
 		for k, val in pairs(tt) do

@@ -45,6 +45,12 @@ function M.setup(opts)
 	local ttfm = require("TaskTracker.internal.fm")
 	ttfm.init({})
 	M.st.arr = ttfm.read_today()
+	vim.api.nvim_create_autocmd("VimLeavePre", {
+		callback = function()
+			local tt_save = require("TaskTracker.internal.fm")
+			tt_save.save_timers()
+		end,
+	})
 end
 
 --- Prints the timers of the current session
@@ -54,6 +60,11 @@ function M.get_timers()
 		out = out .. tostring(i) .. ": " .. t.name .. "\n"
 	end
 	print(out)
+end
+
+function M.save_timers()
+	local ttfm = require("TaskTracker.internal.fm")
+	ttfm.save_timers()
 end
 
 function M.private.start_timer_completion(_, cmd, _)

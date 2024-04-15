@@ -4,7 +4,7 @@ description: The readme file of the TaskTracker plugin
 authors: lucashdez
 categories: readme
 created: 2024-02-23T13:38:36+0000
-updated: 2024-04-06T12:48:19+0000
+updated: 2024-04-15T08:56:35+0100
 version: 1.0.0
 @end
 
@@ -19,6 +19,8 @@ version: 1.0.0
   - ( ) Close window when no timers active
   - ( ) Task descriptor
   - ( ) Copy to clipboard as table entry
+
+  > All the timers in the table format are "hh:mm:ss"
   @table
   |-----------+-------+-----+-------------|
   | task desc | start | end | end - start |
