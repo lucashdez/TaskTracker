@@ -96,7 +96,9 @@ function M.save_timers()
 	local tt = require("TaskTracker")
 	M.file.ptr = assert(io.open(M.path .. M.file.name .. ".tt", "w+"))
 	for _, timer in ipairs(tt.st.arr) do
+		print(timer)
 		local str_save = timer.stime .. " " .. timer.etime .. ";" .. timer.name
+		print(str_save)
 		M.file.ptr:write(str_save)
 	end
 	M.file.ptr:flush()
